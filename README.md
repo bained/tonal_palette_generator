@@ -39,7 +39,7 @@ You can view the live version of the application here:
 To run this project locally:
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/bained/tonal_palette_generator.git](https://github.com/bained/tonal_palette_generator.git)
+   git clone https://github.com/bained/tonal_palette_generator.git
 2. Or just download **index.html**
 
 ---
