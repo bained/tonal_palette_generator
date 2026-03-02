@@ -33,6 +33,7 @@
         .info-box { 
             max-width: 650px; background: #fff; padding: 25px; border-radius: 16px; 
             display: none; margin-top: 10px; border: 1px solid #e2e8f0; font-size: 14px; line-height: 1.6;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
         }
 
         section { width: 100%; max-width: 1000px; margin-bottom: 50px; }
@@ -52,17 +53,15 @@
         .base-tag { position: absolute; top: -10px; font-size: 10px; font-weight: 900; background: #0f172a; color: white; padding: 2px 10px; border-radius: 20px; }
 
         .css-section textarea {
-            width: 100%; height: 400px; border-radius: 12px; border: none;
-            padding: 25px; font-family: monospace; font-size: 16px; line-height: 1.5;
+            width: 100%; height: 420px; border-radius: 12px; border: none;
+            padding: 25px; font-family: 'Fira Code', monospace; font-size: 16px; line-height: 1.5;
             background: #1e293b; color: #38bdf8; resize: vertical; outline: none;
         }
 
         .export-actions { text-align: center; margin-top: 20px; }
-
         footer { margin-top: auto; padding: 40px 0; font-size: 14px; opacity: 0.6; text-align: center; width: 100%; border-top: 1px solid #e2e8f0; }
         footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
-
-        .toast { position: fixed; bottom: 30px; background: #0f172a; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; }
+        .toast { position: fixed; bottom: 30px; background: #0f172a; color: white; padding: 12px 30px; border-radius: 50px; display: none; z-index: 1000; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
@@ -74,39 +73,30 @@
             <input type="color" id="colorPicker" value="#4f46e5" oninput="syncInputs('picker')">
             <input type="text" id="hexInput" value="#4F46E5" maxlength="7" oninput="syncInputs('text')">
             <button class="btn btn-primary" onclick="updatePalette()">Generate</button>
+            <button class="btn btn-info" onclick="copyShareLink()">Share</button>
             <button class="btn btn-info" onclick="toggleInfo()">Info</button>
         </div>
+        
         <div id="infoBox" class="info-box">
             <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
                 <h2 style="margin-top: 0; color: #4f46e5; font-size: 1.4rem;">Tonal Palette Logic & Usage</h2>
-                <p>This generator creates a cohesive 15-color design system based on <strong>HSL (Hue, Saturation, Lightness)</strong> mathematics. It ensures visual harmony by shifting all three axes simultaneously.</p>
-
+                <p>This generator creates a cohesive 15-color design system based on <strong>HSL (Hue, Saturation, Lightness)</strong> mathematics.</p>
                 <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-
                 <h3 style="font-size: 1.1rem; margin-bottom: 10px;">1. The Core Palette (100 - 500)</h3>
-                <p>The main 5-color scale is your primary toolkit for any web project:</p>
                 <ul style="padding-left: 20px; line-height: 1.7;">
-                    <li><strong>Color 100 (Lightest):</strong> Best for <em>Section Backgrounds</em> or <em>Disabled Button</em> states. Very subtle and airy.</li>
-                    <li><strong>Color 200 (Soft):</strong> Perfect for <em>Card Backgrounds</em>, <em>Dividers</em>, or <em>Secondary Buttons</em>.</li>
-                    <li><strong>Color 300 (Base):</strong> Your <strong>Primary Brand Color</strong>. Use this for <em>Main Actions</em>, <em>Active Links</em>, and <em>Icons</em>.</li>
-                    <li><strong>Color 400 (Deep):</strong> Great for <em>Hover States</em> on primary buttons or <em>Subheadings</em>.</li>
-                    <li><strong>Color 500 (Darkest):</strong> High contrast. Ideal for <em>Main Text</em>, <em>Deep Borders</em>, or <em>Dark Mode Accents</em>.</li>
+                    <li><strong>100 (Lightest):</strong> Backgrounds or Disabled states.</li>
+                    <li><strong>200 (Soft):</strong> Cards, Dividers, Secondary buttons.</li>
+                    <li><strong>300 (Base):</strong> Primary actions, Active links, Icons.</li>
+                    <li><strong>400 (Deep):</strong> Hover states, Subheadings.</li>
+                    <li><strong>500 (Darkest):</strong> Main text, Deep borders, Dark mode.</li>
                 </ul>
-
-                
-
                 <h3 style="font-size: 1.1rem; margin-top: 25px; margin-bottom: 10px;">2. Tints & Shades (XX1 - XX9)</h3>
-                <p>These are "micro-adjustments" for complex UI components like inputs or layered cards:</p>
                 <ul style="padding-left: 20px; line-height: 1.7;">
-                    <li><strong>Tints (XX1):</strong> Derived by adding <strong>+15% Lightness</strong>. Excellent for <em>Tooltip backgrounds</em> or <em>Success/Info notifications</em>.</li>
-                    <li><strong>Shades (XX9):</strong> Derived by subtracting <strong>15% Lightness</strong>. Use these for <em>Inner Shadows</em> or <em>Pressed (Active) button states</em>.</li>
+                    <li><strong>Tints (XX1):</strong> +15% Lightness. For tooltips and notifications.</li>
+                    <li><strong>Shades (XX9):</strong> -15% Lightness. For pressed states or inner shadows.</li>
                 </ul>
-
-                <h3 style="font-size: 1.1rem; margin-top: 25px; margin-bottom: 10px;">3. Why HSL?</h3>
-                <p>Unlike HEX, <strong>HSL</strong> allows you to maintain the "energy" of a color while changing its brightness. The <strong>8° Hue Shift</strong> applied here prevents colors from looking "muddy" or "greyish" when darkened, mimicking how real-world shadows work.</p>
-
                 <div style="background: #f8fafc; padding: 15px; border-radius: 8px; border-left: 4px solid #10b981; margin-top: 20px;">
-                    <strong>Pro Tip:</strong> Use the <strong>.gpl export</strong> to import this palette into <strong>Inkscape</strong> or <strong>GIMP</strong> to keep your design mockups and code perfectly in sync!
+                    <strong>Pro Tip:</strong> All changes are saved in the URL. Just copy the link to share your palette!
                 </div>
             </div>
         </div>
@@ -154,11 +144,31 @@
 
         let currentExportData = [];
 
+        function loadFromHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (/^[0-9A-F]{6}$/i.test(hash)) {
+                const fullHex = '#' + hash.toUpperCase();
+                document.getElementById('colorPicker').value = fullHex;
+                document.getElementById('hexInput').value = fullHex;
+                return true;
+            }
+            return false;
+        }
+
         function syncInputs(source) {
             const picker = document.getElementById('colorPicker'), text = document.getElementById('hexInput');
             if (source === 'picker') text.value = picker.value.toUpperCase();
             else if (/^#[0-9A-F]{6}$/i.test(text.value)) picker.value = text.value;
+            
+            // Update URL hash without reload
+            history.replaceState(null, null, "#" + text.value.replace('#', ''));
             updatePalette();
+        }
+
+        function copyShareLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                showToast("Share link copied to clipboard!");
+            });
         }
 
         function toggleInfo() { const box = document.getElementById('infoBox'); box.style.display = box.style.display === 'block' ? 'none' : 'block'; }
@@ -203,6 +213,7 @@
             [mainCont, lightCont, darkCont].forEach(c => c.innerHTML = '');
 
             currentExportData = [];
+            let cssHeader = `/* Tonal Palette Export | Base: ${baseHex} */\n\n`;
             let cssMain = "/* Main Palette */\n", cssTints = "/* Tints */\n", cssShades = "/* Shades */\n";
 
             for (let i = 1; i <= 5; i++) {
@@ -211,29 +222,26 @@
                 let curS = Math.min(Math.max(s + (step.s * diff), 0), 100);
                 let curL = Math.min(Math.max(l + (step.l * -diff), 0), 100);
 
-                // Main Card
                 const mHex = hslToHex(curH, curS, curL);
                 mainCont.appendChild(createCard(curH, curS, curL, i === 3, `${i}00`));
-                cssMain += `  --color-tonal-${i}00: hsl(${curH}, ${curS}%, ${curL}%);\n`;
+                cssMain += `  --color-tonal-${i}00: hsl(${curH}, ${curS}%, ${curL}%); /* ${mHex} */\n`;
                 currentExportData.push({name: `Tonal-${i}00`, hex: mHex, hsl: `${curH},${curS}%,${curL}%`});
 
-                // Tint (XX1)
                 let tL = Math.min(curL + 15, 100);
                 const tHex = hslToHex(curH, curS, tL);
                 lightCont.appendChild(createCard(curH, curS, tL, false, `${i}01`));
-                cssTints += `  --color-tonal-${i}01: hsl(${curH}, ${curS}%, ${tL}%);\n`;
+                cssTints += `  --color-tonal-${i}01: hsl(${curH}, ${curS}%, ${tL}%); /* ${tHex} */\n`;
                 currentExportData.push({name: `Tonal-${i}01`, hex: tHex, hsl: `${curH},${curS}%,${tL}%`});
 
-                // Shade (X99)
                 let sL = Math.max(curL - 15, 0);
                 const sHex = hslToHex(curH, curS, sL);
                 let sNum = (i === 1) ? "099" : (i-1) + "99";
                 darkCont.appendChild(createCard(curH, curS, sL, false, sNum));
-                cssShades += `  --color-tonal-${sNum}: hsl(${curH}, ${curS}%, ${sL}%);\n`;
+                cssShades += `  --color-tonal-${sNum}: hsl(${curH}, ${curS}%, ${sL}%); /* ${sHex} */\n`;
                 currentExportData.push({name: `Tonal-${sNum}`, hex: sHex, hsl: `${curH},${curS}%,${sL}%`});
             }
 
-            document.getElementById('cssOutput').value = `:root {\n  ${cssMain}\n  ${cssTints}\n  ${cssShades}\n}`;
+            document.getElementById('cssOutput').value = `:root {\n  ${cssHeader}  ${cssMain}\n  ${cssTints}\n  ${cssShades}\n}`;
         }
 
         function createCard(h, s, l, isBase, label) {
@@ -253,7 +261,29 @@
         }
 
         function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2000); }
-        window.onload = updatePalette;
+
+        function initApp() {
+            const loaded = loadFromHash();
+            updatePalette();
+            
+            if (loaded) {
+                console.log("Palette loaded from URL");
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initApp);
+
+        window.onload = () => {
+            if (!document.getElementById('hexInput').value.includes(window.location.hash)) {
+                initApp();
+            }
+        };
+
+        window.addEventListener('hashchange', () => {
+            if (loadFromHash()) {
+                updatePalette();
+            }
+        });
     </script>
 </body>
 </html>
